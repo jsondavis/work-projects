@@ -1,0 +1,191 @@
+html{
+    overflow-y: scroll;
+}
+
+body{
+    background-color: #d3d3d3;
+    padding-top: 60px;
+}
+
+section{
+    overflow: auto;
+}
+
+/* typography */
+h1, h2, h3, h4, h5, h6 {
+    line-height: 1;
+}
+
+h1 {
+    font-size: 3em;
+    letter-spacing: -2px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+h2 {
+    font-size: 1.7em;
+    letter-spacing: -1px;
+    margin-bottom: 30px;
+    text-align: center;
+    font-weight: normal;
+    color: #999;
+}
+
+p {
+    font-size: 1.1em;
+    line-height: 1.7em;
+}
+
+/*
+ *      Header
+ */
+#logo {
+    float: left;
+    margin-right: 10px;
+    font-size: 1.7em;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: -1px;
+    padding-top: 9px;
+    font-weight: bold;
+    line-height: 1;
+}
+
+#logo:hover {
+    color: #fff;
+    text-decoration: none;
+}
+
+
+/**
+ *
+ *
+ *
+ */
+
+#formdiv{
+    font-family: Tahoma, sans-serif;
+    background-color: #f0f8ff;
+    border: 2px solid #c0c0c0;
+    position: relative;
+    float: left;
+    text-align: center;
+    width: 430px;
+    margin: 70px 10px 90px 80px;
+    padding: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px; 
+    border-radius: 10px; /* future proofing */ 
+    -khtml-border-radius: 10px; /* for old Konqueror browsers */
+}
+
+#formdiv label {
+    font-weight: bold;
+    margin-bottom: -5px;
+}
+
+#formdiv input {
+    font-family: Tahoma, sans-serif;
+    text-align: center;
+    width: 350px;
+    min-height: 20px;
+    margin-top: -10px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px; 
+    border-radius: 5px; /* future proofing */ 
+    -khtml-border-radius: 5px; /* for old Konqueror browsers */
+}
+
+#formdiv textarea {
+    font-family: Tahoma, sans-serif;
+    width: 350px;
+    height: 120px;
+    border: 1px solid gray;
+    padding: 5px;
+    background-position: center;
+    margin-bottom: 10px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px; 
+    border-radius: 5px; /* future proofing */ 
+    -khtml-border-radius: 5px; /* for old Konqueror browsers */
+}
+
+
+#specialselect{
+    min-height: 90px;
+}
+
+#categorydiv label{
+    margin-bottom: -10px;
+}
+
+.topchoices{
+    float: left;
+    width: 170px;
+    background-color: #b0e0e6;
+    border: 1px solid gray;
+    margin: 5px;
+    margin-left: 4.8%;
+    padding: 5px;
+    text-align: center;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px; 
+    border-radius: 5px; /* future proofing */ 
+    -khtml-border-radius: 5px; /* for old Konqueror browsers */
+}
+    
+.topchoices:hover {
+    color: gray;
+    border: 1px solid #87ceeb;
+}
+
+.sub{
+    color: black;
+    text-align:left;
+    padding: 2.5px 2.5px 5px 5px;
+}
+
+.sub:hover {
+    color: #b22222;
+}
+
+.hiddenchoices{
+    display: none;
+}
+
+.hiddendivs{
+    opacity: 0.3;
+}
+
+/************************************
+ *
+ *      Aside Section
+ * - for the display of retrieved data
+ *
+ */
+
+#aside {
+    font-family: Tahoma, sans-serif;
+    background-color: #f0f8ff;
+    border: 2px solid #c0c0c0;
+    position: relative;
+    float: left;
+    text-align: center;
+    margin: 70px 5px 90px 60px;
+    padding: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px; 
+    border-radius: 10px; /* future proofing */ 
+    -khtml-border-radius: 10px; /* for old Konqueror browsers */
+}
+
+#aside .top{
+    font-weight: bold;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+
+.hiddenID {
+    display:none;
+}
