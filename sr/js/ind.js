@@ -1,4 +1,5 @@
- /* 
+var refresh = null;
+/* 
   * Adds Header and links to header
   *
   */ 
@@ -24,6 +25,9 @@ var Header = {
                 }
                 var signout = $('nav ul').find('a:last').click(function(event){
                     event.preventDefault();
+                    if(refresh){
+                            clearInterval(refresh);
+                        }
                     $.removeCookie('NassauSRCookie');
                     $('body').empty();
                     //$('#formdiv').empty();
@@ -42,12 +46,22 @@ var SignupForm = {
         SignupForm.addSignup();
         SignupForm.submit();
         },
-    
+   
+    branches : function(){
+                var brancharray = [ 'Atlanta' , 'Eagle' , 'Gotham' , 'New Jersey' , 'T/A' , 'West' ],
+                    branchfield = '<label for="branch">Branch:</label><br/>\n<select id="branch" name="branch">';
+                    
+                    jQuery.each(brancharray, function(){
+                        branchfield += '<option value=' + this + '>'+ this +'</option><br/>\n';
+                        });
+                    branchfield += '</select>\n';
+                return branchfield;
+            },
+
     fields : {
-             emailfield : '<label for="email">Email:</label><br/><input type="text" id="email" name="email">', 
+             emailfield : '<label for="email">Email:</label><br/><input type="email" id="email" name="email">', 
           passwordfield : '<label for="password">Password:</label><br/><input type="password" id="password" name="password">',
               namefield : '<label for="name">Name:</label><br/><input type="text" id="name" name="name">',
-            branchfield : '<label for="branch">Branch:</label><br/><input type="text" id="branch" name="branch">',
         passwordconfirm : '<label for="password">Password Confirmation:</label><br/><input type="password" id="confirm" name="confirm">',
              },
    
@@ -64,7 +78,7 @@ var SignupForm = {
                     + '<h4>Please Sign Up</h4>'
                     + SignupForm.fields.namefield + '<br/>\n'
                     + SignupForm.fields.emailfield + '<br/>\n'
-                    + SignupForm.fields.branchfield + '<br/>\n'
+                    + SignupForm.branches() + '\n'
                     + SignupForm.fields.passwordfield + '<br/>\n'
                     + SignupForm.fields.passwordconfirm + '<br/>\n'
                     + '<button type="submit" name="login" value="signup" class="btn btn-warning">Sign Up</button>\n<span> or <a href="/login">Log In</a></span></form>');        
@@ -185,7 +199,7 @@ var LoginForm = {
 
 
      fields : { 
-         emailfield : '<label for="email">Email:</label><br/><input type="text" id="email" name="email">', 
+         emailfield : '<label for="email">Email:</label><br/><input type="email" id="email" name="email">', 
       passwordfield : '<label for="password">Password:</label><br/><input type="password" id="password" name="password">'
         },
 
@@ -238,15 +252,17 @@ var LoginForm = {
                                 data : dataString
                                 }) 
                                 .done(function(data) {
+                                        $('#formdiv form').remove();
                                     // set login true
                                     var parsedata = JSON.parse(data);
                                     if(parsedata.login === true){
                                         LoginForm.login = true;
-                                        console.log(data);
+                                        //console.log(data);
                                         LoginForm.makeCookie(parsedata.name, parsedata.branch, parsedata.supervisor);
-                                        $('#formdiv form').remove();
                                         Header.addLogout();
                                         Feedback.init();
+                                    }else{
+                                        LoginForm.init();    
                                     }
 
                                     }) 
@@ -340,9 +356,9 @@ var Feedback = {
      */
     init: function(){
         this.formAppend();
-        var account = Feedback.formvalues.account === undefined ? '' : Feedback.formvalues.account;
-        var category = Feedback.formvalues.category === undefined ? '' : Feedback.formvalues.category;
-        this.addCategories(account.length, category.length);
+        //var account = Feedback.formvalues.account === undefined ? '' : Feedback.formvalues.account;
+        //var category = Feedback.formvalues.category === undefined ? '' : Feedback.formvalues.category;
+        this.addCategories(Feedback.formvalues.account.length, Feedback.formvalues.category.length);
         this.getLoginInfo();
         this.getFormValues();
         this.accountListener();
@@ -669,6 +685,7 @@ categoryFields: {
 
              if(isNaN(Number(account))){
                     var acctlabel = $('#acctdiv label').text();
+                    document.getElementById('acctdiv').scrollIntoView();
                     window.setTimeout(function(){$('#acctdiv label').css('color', 'red')}, 150);
                     window.setTimeout(function(){$('#acctdiv label').text('This is not a valid account number!')}, 200);
                     window.setTimeout(function(){$('#acctdiv label').text(acctlabel)}, 5000);
@@ -678,6 +695,7 @@ categoryFields: {
 
              if(isNaN(Number(order_invoice))){
                     var orderlabel = $('#orddiv label').text();
+                    document.getElementById('acctdiv').scrollIntoView();
                     window.setTimeout(function(){$('#orddiv label').css('color', 'red')}, 150);
                     window.setTimeout(function(){$('#orddiv label').text('This is not a valid order/invoice number!')}, 200);
                     window.setTimeout(function(){$('#orddiv label').text(orderlabel)}, 5000);
@@ -685,6 +703,13 @@ categoryFields: {
                     errors++;
                  }
 
+             if(category === ''){
+                    var catlabel = $('#categorydiv label').text();
+                    window.setTimeout(function(){$('#categorydiv label').css('color', 'red')}, 150);
+                    document.getElementById('acctdiv').scrollIntoView();
+                    window.setTimeout(function(){$('#categorydiv label').css('color', 'black')}, 5500);
+                    errors++;
+                }
 
             dataString = 'name=' + name + '&branch=' + branch + 
                          '&account=' + account + '&order_invoice=' + order_invoice +
@@ -701,7 +726,7 @@ categoryFields: {
                             data : dataString
                             })
                             .done(function(data){
-                                    //console.log('success =>' + data);
+                                    console.log('success =>' + data);
                                     $('#formdiv form').slideUp('slow');
                                     window.setTimeout(function(){
                                     $('#formdiv').append('<h3>Feedback Submitted!</h3>');
@@ -736,12 +761,18 @@ categoryFields: {
 };
 
 
+
 var Aside = {
         init : function(){
             $.cookie.json = true;
             var cookieval = $.cookie('NassauSRCookie');
-            if(NassauLogin !== undefined || cookieval.name !== undefined){
+            if(NassauLogin !== undefined || (cookieval !== null && cookieval.name !== undefined)){
                     Aside.addAside();
+                    refresh = window.setInterval(function(){ 
+                            Aside.refresh();
+                            //console.log('refreshed');
+                            }, 30000); 
+                    
                 }
             },
 
@@ -770,7 +801,7 @@ var Aside = {
         getAside : function(user, branch, supervisor){
 
                 var dataString = 'user=' + user + '&branch=' + branch;
-                console.log(dataString);
+                //console.log(dataString);
 
                 if(supervisor){
                         dataString += '&aside=supervisor';
@@ -822,19 +853,24 @@ var Aside = {
                                                     now = moment(),
                                                     since = time.from(now);
                                                 delay += 600;
-                                                $('#aside').append('<div class=row ' + i + '></div>');
+                                                $('#aside').append('<div class=row></div>');
                                                 $('#aside div:last').delay(delay).queue(function(next){
-                                                $(this).append('<div class=span2>' + val.account + '</div>' + 
-                                                                   '<div class=span2>' + val.category.split('-')[0] + '</div>' +
+                                                var openlink = supervisor ? '<a class=idref href="#">' : '';
+                                                var closelink = supervisor ? '</a>' : '';
+                                                var namedisplay = supervisor ? '<div class=span1>' + val.name + '</div>' : ''; 
+                                                    $(this).append( openlink + '<div class=span2>' + val.account + '</div>' + 
+                                                                   '<div class=span2 title="' + val.category + '">' + 
+                                                                   val.category.split('-')[0] + '</div>' +
                                                                    '<div class=span2>' + val.order_invoice + '</div>' + 
                                                                    '<div class=span2>' + since + '</div>' + 
-                                                                   '<div class=hiddenID>' + val.id + '</div>');
-                                                    if(supervisor){
-                                                        $(this).append('<div class=span1>' + val.name + '</div>'); 
-                                                        }
+                                                                   '<div class=hiddenID>' + val.id + '</div>' +
+                                                                   closelink + namedisplay);
                                                     next();
                                                 });
                                        });
+
+                                       Aside.selectId();
+
                                    }
                                 })
                             .fail(function(){
@@ -846,14 +882,125 @@ var Aside = {
                 return false;
             },
 
+        selectId : function(){
+                        $('.row').click(function(event){
+                            event.preventDefault();
+                            var id = $(this).find('.hiddenID').text();
+
+                            Aside.issueDisplay(id);
+                            
+
+                        });
+                    },
+
+        issueDisplay : function(issueid){
+                        
+                        function addIssueDisplay(){
+                                
+                                $('#formdiv, #aside').css('opacity' , '0.3');
+                                
+                                var issue = $('#issue-display');
+                                if(issue.length < 1){
+                                        $('body').append('<div id="issue-display" class="issue hero-unit span7"></div>');
+                                        issue = $('#issue-display');
+
+                                issue.append('<h4>Additional Information</h4>\n<form action="echo.php">');
+    
+                                //var issueform = $('#issue-display form');
+
+                                var fields = ['account' , 'order/invoice', 'category', 'resolved', 'description'];
+
+                                jQuery.each(fields, function(){
+                                            issue.append('<label class="span7" for=' + this + '>' + this + '</label><br/>\n');
+                                            issue.append('<input class="span3" type="text" id=' + this + '><br/>\n');
+                                        });
+
+                                issue.append('<br/><a class="btn btn-primary">' +
+                                                                    'Save changes</a> <a class="btn">' +
+                                                                    'Cancel</a>');
+
+                                    }
+                            }
+
+                        var dataString = 'issue=' + issueid;
+
+                        var jqhxr = $.ajax({
+                                            url : 'aside.php',
+                                            type : 'POST',
+                                            data : dataString
+                                            })
+                                    .done(function(data){
+                                        var formString = "";
+                                        var parsedata = JSON.parse(data);
+                                        addIssueDisplay();
+                                        })
+                                    .fail(function(){
+                                        
+                                        })
+                                    .always(function(){
+                                        
+                                            
+                                    }); 
+                         
+                        
+
+                    },
+
+
+
         refresh : function(){
-                        var ids = [];
-                        jQuery.each($('#aside div.hiddenID'), function(){
-                                ids.push($(this).text());
-                            });
+                        var maxid = parseInt($('#aside div.hiddenID:first').text());
+
+                        $.cookie.json = true;
+                        var cookieval = $.cookie('NassauSRCookie');
+
+                        var supervisor = cookieval.supervisor == true? true : false,
+                                branch = cookieval.branch,
+                                user = cookieval.name;
+
+                        var dataString = 'user=' + user + '&branch=' + branch + '&superviosr=' + supervisor;
 
                         // get all from array
-                        // then append them if they are not in the ids array
+                        var jqhxr = $.ajax({
+                                            url : 'aside.php',
+                                            type : 'POST',
+                                            data : dataString
+                                            })
+                                    .done(function(data){
+                                           var parsedata = JSON.parse(data);
+                                           //console.log(parsedata);    
+                                       jQuery.each(parsedata.issues, function(i, val){
+                                           if(val.id > maxid){
+                                                var time = moment.unix(val.time),
+                                                    now = moment(),
+                                                    since = time.from(now);
+                                                $('#aside div.top').next().delay(200).queue(function(next){
+                                                var rowstart = '<div class=row>',
+                                                      rowend = '</div>';
+                                                    openlink = supervisor ? '<a class=idref href="#">' : '',
+                                                   closelink = supervisor ? '</a>' : '',
+                                                 namedisplay = supervisor ? '<div class=span1>' + val.name + '</div>' : ''; 
+                                                    $(this).before( rowstart + openlink + '<div class=span2>' + val.account +
+                                                                   '</div>' + '<div class=span2 title=' + val.category + '>' + 
+                                                                   val.category.split('-')[0] + '</div>' +
+                                                                   '<div class=span2>' + val.order_invoice + '</div>' + 
+                                                                   '<div class=span2>' + since + '</div>' + 
+                                                                   '<div class=hiddenID>' + val.id + '</div>' +
+                                                                   closelink + namedisplay + rowend );
+                                                    next();
+                                                });
+                                           }else{
+                                                // do nothing    
+                                           }
+                                        });
+                                       
+                                        })
+                                    .fail(function(){
+                                            console.log('Houston we have a problem.');
+                                        })
+                                    .always(function(){
+                                            //console.log('fields added');
+                                        });
 
                     }
     };

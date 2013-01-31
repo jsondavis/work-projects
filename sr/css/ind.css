@@ -189,3 +189,10 @@ p {
 .hiddenID {
     display:none;
 }
+
+.issue{
+    position:absolute;
+    top:95px;
+    left:150px;
+    z-index: 100;
+}
