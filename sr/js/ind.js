@@ -74,7 +74,7 @@ var SignupForm = {
                 formdiv = $('#formdiv');
                 }
 
-            formdiv.append('<form action="echo.php" method="post">\n' 
+            formdiv.append('<form action="./php/echo.php" method="post">\n' 
                     + '<h4>Please Sign Up</h4>'
                     + SignupForm.fields.namefield + '<br/>\n'
                     + SignupForm.fields.emailfield + '<br/>\n'
@@ -107,7 +107,7 @@ var SignupForm = {
                     console.log(dataString);
 
                     var jqxhr = $.ajax({
-                                url : 'echo.php',
+                                url : './php/echo.php',
                                 type : 'POST',
                                 data : dataString
                                 }) 
@@ -175,7 +175,7 @@ var LoginForm = {
                    var dataString = 'login=return&name=' + name + '&branch=' + branch;
 
                    var jqxhr = $.ajax({
-                                url : 'echo.php',
+                                url : './php/echo.php',
                                 type : 'POST',
                                 data : dataString
                                 }) 
@@ -214,7 +214,7 @@ var LoginForm = {
         
         //var formdiv = $('#formdiv');
     
-        formdiv.append('<form action="echo.php" method="post">\n' 
+        formdiv.append('<form action="./php/echo.php" method="post">\n' 
                     + '<h4>Please Login</h4>'
                     + LoginForm.fields.emailfield + '<br/>\n' 
                     + LoginForm.fields.passwordfield + '<br/>\n'
@@ -394,7 +394,7 @@ var Feedback = {
                 formdiv = $('#formdiv');
                 }
 
-            formdiv.append('<form action="echo.php" method="post">\n' 
+            formdiv.append('<form action="./php/echo.php" method="post">\n' 
                     + this.form.userfield + '\n'
                     + this.form.branchfield + '\n'
                     + this.form.accountfield + '\n'
@@ -819,7 +819,7 @@ var Aside = {
         getData : function(dataString, categories){
 
                 var jqxhr = $.ajax({
-                                    url : 'aside.php',
+                                    url : './php/aside.php',
                                     type : 'POST',
                                     data : dataString
                                     })
@@ -904,7 +904,7 @@ var Aside = {
                                         $('body').append('<div id="issue-display" class="issue hero-unit span7"></div>');
                                         issue = $('#issue-display');
 
-                                issue.append('<h4>Additional Information</h4>\n<form action="echo.php">');
+                                issue.append('<h4>Additional Information</h4>\n<form action="./php/echo.php">');
     
                                 //var issueform = $('#issue-display form');
 
@@ -925,7 +925,7 @@ var Aside = {
                         var dataString = 'issue=' + issueid;
 
                         var jqhxr = $.ajax({
-                                            url : 'aside.php',
+                                            url : './php/aside.php',
                                             type : 'POST',
                                             data : dataString
                                             })
@@ -962,7 +962,7 @@ var Aside = {
 
                         // get all from array
                         var jqhxr = $.ajax({
-                                            url : 'aside.php',
+                                            url : './php/aside.php',
                                             type : 'POST',
                                             data : dataString
                                             })
