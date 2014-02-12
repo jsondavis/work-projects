@@ -1,10 +1,10 @@
 <?php
 
-$username = 'root';
-$password = 'Nicom01';
+$username = 'blah';
+$password = 'blah';
 
 function EmailSuper($branch, $to, $records){
-    $to = 'jdavis@nassaulens.com';
+    $to = 'blah@blah';
     $subject = "$branch's Unresolved Reports";
     $message = "";
     foreach($records AS $value){
