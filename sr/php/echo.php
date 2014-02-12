@@ -1,14 +1,14 @@
 <?php
 
 function emailIT($category, $description, $name, $branch){
-    $to = 'jfenn@nassaulens.com'; // change this to the It group email
+    $to = 'blah@blah'; // change this to the group email
     $subject = 'Unresolved System Issue Reported';
     $message = $category . "\n\n" . $description . "\n\nReported by:\n" . $name . "@$branch";
     mail($to, $subject, $message);
 }
 
-$username = 'root';
-$password = 'Nicom01';
+$username = 'blah';
+$password = 'blah';
 $SALT = 'Who LiVeS INN a pineAPPle under The SEA?';
 
 Class FullLogin{
@@ -26,7 +26,7 @@ $retarray = array('login'=>false);
 
 if(empty($_POST)){
 
-    $retarray = array('there', 'are', 'no', 'values');
+    $retarray = array('no');
 
 }else{
 
