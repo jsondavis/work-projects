@@ -11,7 +11,7 @@ var Header = {
                 $('header').addClass('navbar navbar-fixed-top navbar-inverse');
                 $('header').append('<div class="navbar-inner"></div>');
                 $('.navbar-inner').append('<div class="container"></div>');
-                $('div.container').append('<a href="#" id="logo">nassau feedback</a>');
+                $('div.container').append('<a href="#" id="logo">blah feedback</a>');
                 $('div.container').append('<nav><ul class="nav pull-right"></ul></nav>');
                 for(var i = 0; i < Header.links.length; i++){
                         $('nav ul').append('<li><a href="/' + Header.links[i] + '">' + Header.links[i] + '</a></li>');
@@ -28,7 +28,7 @@ var Header = {
                     if(refresh){
                             clearInterval(refresh);
                         }
-                    $.removeCookie('NassauSRCookie');
+                    $.removeCookie('blahCookie');
                     $('body').empty();
                     //$('#formdiv').empty();
                     $('nav ul').find('li:last').remove();
@@ -147,7 +147,7 @@ var SignupForm = {
                     supervisor : supervisor
                     };
 
-            $.cookie('NassauSRCookie', user, { expires: 14 });
+            $.cookie('blahCookie', user, { expires: 14 });
             
         }
     };
@@ -166,7 +166,7 @@ var LoginForm = {
 
     checkForCookie : function(){
             $.cookie.json = true;
-            var cookieval = $.cookie('NassauSRCookie');
+            var cookieval = $.cookie('blahRCookie');
             if(cookieval !== null && cookieval.name !== '' && cookieval.branch !== ''){
 
                    var name = cookieval.name,
@@ -231,7 +231,7 @@ var LoginForm = {
 
     checkLogin : function(){
             $.cookie.json = true;
-            var cookieval = $.cookie('NassauSRCookie');
+            var cookieval = $.cookie('blahCookie');
             if(cookieval === null){
                 $('#formdiv button').click(function(event){
 
@@ -293,12 +293,12 @@ var LoginForm = {
                     supervisor : (supervisor === '1')
                     };
 
-            $.cookie('NassauSRCookie', user, { expires: 14 });
+            $.cookie('blahCookie', user, { expires: 14 });
             
         },
 
     logout : function(){
-            $.removeCookie('NassauSRCookie');
+            $.removeCookie('blahCookie');
             $('#aside').remove();
         }
     };
@@ -339,7 +339,7 @@ var Feedback = {
         
             $.cookie.json = true;
 
-            var cookieval = $.cookie('NassauSRCookie');
+            var cookieval = $.cookie('blahCookie');
 
             if(cookieval !== null){
                 var name = cookieval.name,
@@ -406,7 +406,7 @@ var Feedback = {
 
 
             $.cookie.json = true;
-            var cookieval = $.cookie('NassauSRCookie');
+            var cookieval = $.cookie('blahCookie');
             
             var name = cookieval.name,
                 branch = cookieval.branch;
@@ -673,7 +673,7 @@ categoryFields: {
     
             
              $.cookie.json = true;
-             var cookieval = $.cookie('NassauSRCookie');
+             var cookieval = $.cookie('blahCookie');
 
              if(name === ''){
                     name = cookieval.name;
@@ -765,8 +765,8 @@ categoryFields: {
 var Aside = {
         init : function(){
             $.cookie.json = true;
-            var cookieval = $.cookie('NassauSRCookie');
-            if(NassauLogin !== undefined || (cookieval !== null && cookieval.name !== undefined)){
+            var cookieval = $.cookie('blahCookie');
+            if(blahlogin !== undefined || (cookieval !== null && cookieval.name !== undefined)){
                     Aside.addAside();
                     refresh = window.setInterval(function(){ 
                             Aside.refresh();
@@ -778,7 +778,7 @@ var Aside = {
 
         addAside : function(){
                 $.cookie.json = true;
-                var cookieval = $.cookie('NassauSRCookie');
+                var cookieval = $.cookie('blahCookie');
 
                 var supervisor = cookieval.supervisor == true? true : false,
                         branch = cookieval.branch,
@@ -825,7 +825,7 @@ var Aside = {
                                     })
                             .done(function(data){
                                    var parsedata = JSON.parse(data),
-                                        supervisor = $.cookie('NassauSRCookie').supervisor;
+                                        supervisor = $.cookie('blahCookie').supervisor;
                                    //console.log(parsedata.issues.length);
                                    if(parsedata.issues.length > 0){
                                              $('#aside').show('slow');
@@ -952,7 +952,7 @@ var Aside = {
                         var maxid = parseInt($('#aside div.hiddenID:first').text());
 
                         $.cookie.json = true;
-                        var cookieval = $.cookie('NassauSRCookie');
+                        var cookieval = $.cookie('blahCookie');
 
                         var supervisor = cookieval.supervisor == true? true : false,
                                 branch = cookieval.branch,
@@ -1006,10 +1006,10 @@ var Aside = {
     };
 
 
-var NassauLogin = (function(){
+var blahLogin = (function(){
     var undef;
     $.cookie.json = true;
-    var thecookie = $.cookie('NassauSRCookie');
+    var thecookie = $.cookie('blahCookie');
     return thecookie === null ? undef : thecookie;
     }());
 
