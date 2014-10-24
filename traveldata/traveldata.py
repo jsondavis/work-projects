@@ -8,8 +8,6 @@ datafile = open('./getdata/data.json', 'r')
 
 courses = json.load(datafile)
 
-# print len(courses)
-
 for course in courses:
 	post = postCourse(course)
 	post.do_it()
